@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  nexus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./nexus.db:/app/nexus.db
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped

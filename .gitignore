@@ -1,0 +1,46 @@
+# =====================
+# Python / Backend
+# =====================
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Backend virtual environment
+backend/venv/
+
+# Distribution / packaging
+backend/build/
+backend/dist/
+backend/*.egg-info/
+
+# Logs
+*.log
+
+# dotenv files (API keys)
+*.env
+
+# Database files
+*.sqlite3
+
+# =====================
+# Frontend
+# =====================
+
+# Node modules (if using npm/yarn)
+frontend/node_modules/
+
+# Static builds (if you ever build frontend)
+frontend/dist/
+frontend/build/
+
+# =====================
+# IDEs / OS
+# =====================
+.vscode/
+.idea/
+.DS_Store
+
+# Docker overrides (optional)
+docker-compose.override.yml

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS — AI Workspace</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <span class="logo-text">NEXUS</span>
+                </div>
+                <button id="newChatBtn" class="btn btn-primary btn-sm" title="New Chat">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+
+            <!-- Mode Selector -->
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="chat" title="Chat">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat</span>
+                </button>
+                <button class="mode-btn" data-mode="voice" title="Voice">
+                    <i class="fas fa-microphone"></i>
+                    <span>Voice</span>
+                </button>
+                <button class="mode-btn" data-mode="vision" title="Vision">
+                    <i class="fas fa-eye"></i>
+                    <span>Vision</span>
+                </button>
+                <button class="mode-btn" data-mode="research" title="Research">
+                    <i class="fas fa-search"></i>
+                    <span>Research</span>
+                </button>
+                <button class="mode-btn" data-mode="code" title="Code">
+                    <i class="fas fa-code"></i>
+                    <span>Code</span>
+                </button>
+                <button class="mode-btn" data-mode="math" title="Math">
+                    <i class="fas fa-calculator"></i>
+                    <span>Math</span>
+                </button>
+                <button class="mode-btn" data-mode="data" title="Data">
+                    <i class="fas fa-database"></i>
+                    <span>Data</span>
+                </button>
+            </div>
+
+            <!-- Conversations List -->
+            <div class="conversations-list" id="conversationsList">
+                <div class="section-label">Conversations</div>
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <button id="settingsBtn" class="sidebar-footer-btn" title="Settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </button>
+                <button id="healthBtn" class="sidebar-footer-btn" title="System Health">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Health</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="mainContent" class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <button id="sidebarToggle" class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="top-bar-center">
+                    <span id="currentMode" class="current-mode">
+                        <i class="fas fa-comments"></i> Chat
+                    </span>
+                    <select id="modelSelect" class="model-select">
+                        <optgroup label="General">
+                            <option value="general" selected>Llama 3.3 70B (Versatile)</option>
+                            <option value="fast">Llama 3.1 8B (Fast)</option>
+                        </optgroup>
+                        <optgroup label="Specialized">
+                            <option value="coding">Kimi K2 (Coding)</option>
+                            <option value="reasoning">Qwen3 32B (Reasoning)</option>
+                            <option value="arabic">Allam 2 7B (Arabic)</option>
+                        </optgroup>
+                        <optgroup label="Agentic">
+                            <option value="compound">Compound (Full Agent)</option>
+                            <option value="compound_mini">Compound Mini</option>
+                        </optgroup>
+                        <optgroup label="Reasoning">
+                            <option value="reasoning_large">GPT-OSS 120B</option>
+                            <option value="reasoning_small">GPT-OSS 20B</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="top-bar-actions">
+                    <span id="latencyBadge" class="latency-badge" style="display:none">
+                        <i class="fas fa-bolt"></i> <span id="latencyValue">0</span>ms
+                    </span>
+                </div>
+            </header>
+
+            <!-- Messages Area -->
+            <div id="messagesArea" class="messages-area">
+                <!-- Welcome Screen -->
+                <div id="welcomeScreen" class="welcome-screen">
+                    <div class="welcome-icon">
+                        <i class="fas fa-atom fa-spin"></i>
+                    </div>
+                    <h1>Welcome to NEXUS</h1>
+                    <p>Your universal AI workspace assistant</p>
+                    <div class="capability-cards">
+                        <div class="cap-card" data-mode="chat">
+                            <i class="fas fa-comments"></i>
+                            <h3>Chat</h3>
+                            <p>Multi-model conversations with streaming</p>
+                        </div>
+                        <div class="cap-card" data-mode="voice">
+                            <i class="fas fa-microphone"></i>
+                            <h3>Voice</h3>
+                            <p>Talk naturally with STT → LLM → TTS</p>
+                        </div>
+                        <div class="cap-card" data-mode="vision">
+                            <i class="fas fa-eye"></i>
+                            <h3>Vision</h3>
+                            <p>Analyze images, OCR, documents</p>
+                        </div>
+                        <div class="cap-card" data-mode="research">
+                            <i class="fas fa-search"></i>
+                            <h3>Research</h3>
+                            <p>Web search & browser automation</p>
+                        </div>
+                        <div class="cap-card" data-mode="code">
+                            <i class="fas fa-code"></i>
+                            <h3>Code</h3>
+                            <p>Generate, execute & debug code</p>
+                        </div>
+                        <div class="cap-card" data-mode="math">
+                            <i class="fas fa-calculator"></i>
+                            <h3>Math</h3>
+                            <p>Wolfram Alpha computation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages will be injected here -->
+                <div id="messagesList" class="messages-list"></div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area" id="inputArea">
+                <!-- Attachment preview -->
+                <div id="attachmentPreview" class="attachment-preview" style="display:none">
+                    <div id="attachmentList" class="attachment-list"></div>
+                </div>
+
+                <!-- Voice Mode Controls -->
+                <div id="voiceControls" class="voice-controls" style="display:none">
+                    <button id="recordBtn" class="record-btn" title="Hold to record">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <div id="voiceStatus" class="voice-status">Press & hold to talk</div>
+                    <select id="voiceSelect" class="voice-select">
+                        <option value="Fritz-PlayAI">Fritz</option>
+                        <option value="Arista-PlayAI">Arista</option>
+                        <option value="Atlas-PlayAI">Atlas</option>
+                        <option value="Celeste-PlayAI">Celeste</option>
+                        <option value="Cillian-PlayAI">Cillian</option>
+                        <option value="Eleanor-PlayAI">Eleanor</option>
+                        <option value="Indigo-PlayAI">Indigo</option>
+                        <option value="Nia-PlayAI">Nia</option>
+                    </select>
+                </div>
+
+                <!-- Text Input -->
+                <div id="textInputArea" class="text-input-area">
+                    <div class="input-actions-left">
+                        <button id="attachBtn" class="input-action-btn" title="Attach file">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <input type="file" id="fileInput" multiple style="display:none"
+                               accept="image/*,audio/*,.pdf,.txt,.md,.csv,.json,.py,.js,.ts">
+                    </div>
+                    <textarea
+                        id="messageInput"
+                        class="message-input"
+                        placeholder="Message NEXUS..."
+                        rows="1"
+                    ></textarea>
+                    <div class="input-actions-right">
+                        <button id="sendBtn" class="send-btn" title="Send">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal" style="display:none">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-cog"></i> Settings</h2>
+                <button class="modal-close" onclick="closeModal('settingsModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label>System Prompt</label>
+                    <textarea id="systemPrompt" rows="4" class="setting-textarea"
+                    >You are NEXUS, an advanced AI workspace assistant. You are helpful, knowledgeable, and capable.</textarea>
+                </div>
+                <div class="setting-group">
+                    <label>Temperature: <span id="tempValue">0.7</span></label>
+                    <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7"
+                           class="setting-range" oninput="document.getElementById('tempValue').textContent=this.value">
+                </div>
+                <div class="setting-group">
+                    <label>Max Tokens</label>
+                    <input type="number" id="maxTokens" value="4096" min="256" max="32768"
+                           class="setting-input">
+                </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="safetyEnabled" checked>
+                        Enable Safety Checks
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="streamEnabled" checked>
+                        Enable Streaming
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Modal -->
+    <div id="healthModal" class="modal" style="display:none">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-heartbeat"></i> System Health</h2>
+                <button class="modal-close" onclick="closeModal('healthModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="healthContent">
+                Loading...
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
